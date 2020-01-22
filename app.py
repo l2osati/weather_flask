@@ -7,7 +7,7 @@ from weather import *
 from flask_heroku import Heroku
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
+#app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
