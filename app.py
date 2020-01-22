@@ -6,11 +6,8 @@ from flask_migrate import Migrate
 from weather import *
 from flask_heroku import Heroku
 
-#project_dir = os.path.dirname(os.path.abspath(__file__))
-#database_file = f"sqlite:///{os.path.join(project_dir, 'weather.db')}"
-
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = database_file
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
