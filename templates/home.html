@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Weather Tracker</title>
+        <style>
+        label.tog > input {
+        display: none; /* Hide the checkbox */
+        }
+
+        label.tog > input + span {
+        text-indent: -9000px; /* Make text Accessible but not visible */
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background: center / contain no-repeat url("/static/sad.png"); /*Play*/
+        }
+
+        label.tog > input:checked + span {
+        background-image: url("/static/happy.png"); /*Pause*/
+        }
+        </style>
+
+    </header>
+    <body onload="getLocation()">
+        <p id="error"></p>
+        <form method="POST" action="/">
+            <input type="hidden" name="lat" id='lat'>
+            <input type="hidden" name="lon" id="lon">
+            <input type="hidden" name="positive" value="True">
+            <input type="submit" value="This weather is great!">
+        </form>
+    </br>
+        <form method="POST" action="/">
+            <input type="hidden" name="lat" id='lat2'>
+            <input type="hidden" name="lon" id="lon2">
+            <input type="hidden" name="positive" value="">
+            <input type="submit" value="This weather sucks!">
+        </form>
+
+        <h1>Past Forecasts</h1>
+        <table>
+            {% for forecast in forecasts %}
+                <tr>
+                    <td><p>Temperature: {{forecast.main_temp}} Feels like: {{forecast.main_feels_like}} Weather: {{forecast.weather_description}}</p></td>
+                    <td>
+                        <form method="POST" action="./update">
+                            <input type="hidden" name="id" value="{{forecast.id}}">
+                            <label class="tog">
+                                <input type="checkbox" name="newdisposition" {% if forecast.positive == true %}checked{% endif %}>
+                                <span>Button Play Pause</span>
+                            </label>
+                            <input type="submit" value="Update">
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="./delete">
+                            <input type="hidden" name="id" value="{{forecast.id}}">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+        <script>
+            var e = document.getElementById("error");
+
+            function getLocation() {
+              if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(showPosition);
+              } else {
+                e.innerHTML = "Geolocation is not supported by this browser.";      
+              }
+            }
+
+            function showPosition(position) {
+                document.getElementById('lat').value=position.coords.latitude
+                document.getElementById('lon').value=position.coords.longitude
+                document.getElementById('lat2').value=position.coords.latitude
+                document.getElementById('lon2').value=position.coords.longitude
+            }
+        </script>
+    </body>
+</html>
