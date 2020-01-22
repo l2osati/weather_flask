@@ -1,54 +1,33 @@
 {% extends 'base.html' %}
 
+{% block title %}Home{% endblock %}
+
 {% block content %}
-<div class='row'>
-    <div class='jumbotron jumbotron-fluid'>
-        <div class='container container-fluid'>
-            <form method="POST" action="/">
-                <input type="hidden" name="lat" id='lat'>
-                <input type="hidden" name="lon" id="lon">
-                <input type="hidden" name="positive" value="True">
-                <button type="submit" class="btn btn-primary btn-lg">This weather is great!</button>
-            </form>
-            </br>
-            <form method="POST" action="/">
-                <input type="hidden" name="lat" id='lat2'>
-                <input type="hidden" name="lon" id="lon2">
-                <input type="hidden" name="positive" value="">
-                <button type="submit" class="btn btn-primary btn-lg">I don't like this weather!</button>
-            </form>
-        </div><p id="error"></p>
+<div class='row starter-template'>
+    <div class='container'>
+
+                    <form method="POST" action="/">
+                        <input type="hidden" name="lat" id='lat'>
+                        <input type="hidden" name="lon" id="lon">
+                        <input type="hidden" name="positive" value="True">
+                        <button type="submit" class="btn btn-primary btn-lg">I like this weather</button>
+                    </form>                
+            <br/>
+                    <form method="POST" action="/">
+                        <input type="hidden" name="lat" id='lat2'>
+                        <input type="hidden" name="lon" id="lon2">
+                        <input type="hidden" name="positive" value="">
+                        <button type="submit" class="btn btn-secondary btn-lg">I don't like this weather</button>
+                    </form>
+            
+ 
+
         
-    </div>
+    </div><p id="error"></p>
+        
         
 </div>
-<div class='row'>
-    <h3>Past Forecasts</h3>
-    <table class='table table-hover'>
-        {% for forecast in forecasts %}
-            <tr>
-                <td><p>Temperature: {{forecast.main_temp}} Feels like: {{forecast.main_feels_like}} Weather: {{forecast.weather_description}}</p></td>
-                <td>
-                    <form method="POST" action="./update">
-                        <input type="hidden" name="id" value="{{forecast.id}}">
-                        <label class="tog">
-                            <input type="checkbox" name="newdisposition" {% if forecast.positive == true %}checked{% endif %}>
-                            <span>Button Play Pause</span>
-                        </label>
-                        <input type="submit" value="Update">
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="./delete">
-                        <input type="hidden" name="id" value="{{forecast.id}}">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    
-</div>
+
 <script>
     var e = document.getElementById("error");
 

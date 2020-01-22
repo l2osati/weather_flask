@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Forecasts{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <h3>Past Forecasts</h3>
+    <table class='table table-hover'>
+        {% for forecast in forecasts %}
+            <tr>
+                <td><p>Temp: {{forecast.main_temp}} Feels like: {{forecast.main_feels_like}} Weather: {{forecast.weather_description}}</p></td>
+                <td>
+                    <form method="POST" action="./update">
+                        <input type="hidden" name="id" value="{{forecast.id}}">
+                        <label class="tog">
+                            <input type="checkbox" name="newdisposition" {% if forecast.positive == true %}checked{% endif %}>
+                            <span>Button Play Pause</span>
+                        </label>
+                        <input type="submit" value="Update">
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="./delete">
+                        <input type="hidden" name="id" value="{{forecast.id}}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+</div>
+{% endblock %}

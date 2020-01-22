@@ -7,7 +7,7 @@ from weather import *
 from flask_heroku import Heroku
 
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
@@ -71,8 +71,14 @@ def home():
         print(forecast.id)
         db.session.add(forecast)
         db.session.commit()
-    forecasts = Forecast.query.all()
+    
     return render_template("home.html", forecasts=forecasts, f=Forecast)
+
+@app.route("/forecasts/", methods=["GET","POST"])
+def forecasts():
+    forecasts = Forecast.query.all()
+
+    return render_template("forecasts.html", forecasts=forecasts)
 
 @app.route("/update", methods=["POST"])
 def update():
@@ -98,4 +104,4 @@ def results():
     return jsonify({'test':20})
 
 if __name__ == "__main__":
-    app.run() 
+    app.run(debug=True) 
