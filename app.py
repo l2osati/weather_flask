@@ -7,8 +7,12 @@ from weather import *
 from flask_heroku import Heroku
 
 app = Flask(__name__)
-if os.environ['FLASK_ENV'] == "development": 
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
+try:
+    if os.environ['FLASK_ENV'] == "development": 
+        app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres+psycopg2://postgres:hackercrap@localhost:5432/appdb'
+except:
+    pass
+
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
@@ -105,7 +109,10 @@ def results():
     return jsonify({'test':20})
 
 if __name__ == "__main__":
-    if os.environ['FLASK_ENV'] == "development":
-        app.run(debug=True) 
-    else:
+    try:
+        if os.environ['FLASK_ENV'] == "development":
+            app.run(debug=True) 
+        else:
+            app.run()
+    except:
         app.run()
